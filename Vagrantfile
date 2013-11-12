@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise32"
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
-  config.vm.hostname = "vvv2"
+  config.vm.hostname = "vvv"
 
   # Local Machine Hosts
   #
@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
   # If you are already on a network using the 192.168.50.x subnet, this should be changed.
   # If you are running more than one VM through Virtualbox, different subnets should be used
   # for those as well. This includes other Vagrant boxes.
-  config.vm.network :private_network, ip: "192.168.50.14"
+  config.vm.network :private_network, ip: "192.168.50.4"
 
   # Drive mapping
   #
