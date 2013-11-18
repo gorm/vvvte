@@ -464,24 +464,44 @@ then
 		git pull --rebase origin master
 	fi
 
+    if [ ! -d /srv/www/wordpress-default ]
+    then
+        echo "Downloading WordPress Stable, see http://wordpress.org/"
+        cd /srv/www/
+        curl -O http://wordpress.org/latest.tar.gz
+        tar -xvf latest.tar.gz
+        mv wordpress wordpress-default
+        rm latest.tar.gz
+        cd /srv/www/wordpress-default
+        echo "Configuring WordPress Stable..."
+        wp core config --dbname=wordpress_default --dbuser=wp --dbpass=wp --quiet --extra-php <<PHP
+define( 'WP_DEBUG', true );
+PHP
+        wp core install --url=local.wordpress.dev --quiet --title="Local WordPress Dev" --admin_name=admin --admin_email="admin@local.dev" --admin_password="password"
+else
+        echo "Updating WordPress Stable..."
+        cd /srv/www/wordpress-default
+        wp core upgrade
+    fi
+
 	# Install and configure the latest stable version of WordPress
-	if [ ! -d /srv/www/wordpress-default ]
+	if [ ! -d /srv/www/wordpress-multisite ]
 	then
 		echo "Downloading WordPress Stable, see http://wordpress.org/"
 		cd /srv/www/
 		curl -O http://wordpress.org/latest.tar.gz
 		tar -xvf latest.tar.gz
-		mv wordpress wordpress-default
+		mv wordpress wordpress-multisite
 		rm latest.tar.gz
-		cd /srv/www/wordpress-default
+		cd /srv/www/wordpress-multisite
 		echo "Configuring WordPress Stable..."
-		wp core config --dbname=wordpress_default --locale="nb_NO" --dbuser=wp --dbpass=wp --quiet --extra-php <<PHP
+		wp core config --dbname=wordpress_multisite --locale="nb_NO" --dbuser=wp --dbpass=wp --quiet --extra-php <<PHP
 define( 'WP_DEBUG', true );
 PHP
-		wp core multisite-install --url=local.wordpress.dev --quiet --title="Local WordPress Dev" --admin_name=admin --admin_email="admin@local.dev" --admin_password="password"
+		wp core multisite-install --url=multisite.wordpress.dev --quiet --title="Multisite WordPress Dev" --admin_name=admin --admin_email="admin@local.dev" --admin_password="password"
 	else
 		echo "Updating WordPress Stable..."
-		cd /srv/www/wordpress-default
+		cd /srv/www/wordpress-multisite
 		wp core upgrade
 	fi
 
@@ -502,33 +522,33 @@ PHP
 # 		svn up --ignore-externals
 # 	fi
 
-# 	# Checkout, install and configure WordPress trunk via develop.svn
-# 	if [ ! -d /srv/www/wordpress-develop ]
-# 	then
-# 		echo "Checking out WordPress trunk from develop.svn, see http://develop.svn.wordpress.org/trunk"
-# 		svn checkout http://develop.svn.wordpress.org/trunk/ /srv/www/wordpress-develop
-# 		cd /srv/www/wordpress-develop/src/
-# 		echo "Configuring WordPress develop..."
-# 		wp core config --dbname=wordpress_develop --dbuser=wp --dbpass=wp --quiet --extra-php <<PHP
-# define( 'WP_DEBUG', true );
-# PHP
-# 		wp core install --url=src.wordpress-develop.dev --quiet --title="WordPress Develop" --admin_name=admin --admin_email="admin@local.dev" --admin_password="password"
-# 		cp /srv/config/wordpress-config/wp-tests-config.php /srv/www/wordpress-develop/
-# 		cd /srv/www/wordpress-develop/
-# 		npm install &>/dev/null
-# 	else
-# 		echo "Updating WordPress trunk..."
-# 		cd /srv/www/wordpress-develop/
-# 		svn up
-# 		npm install &>/dev/null
-# 	fi
+	# Checkout, install and configure WordPress trunk via develop.svn
+	if [ ! -d /srv/www/wordpress-develop ]
+	then
+		echo "Checking out WordPress trunk from develop.svn, see http://develop.svn.wordpress.org/trunk"
+		svn checkout http://develop.svn.wordpress.org/trunk/ /srv/www/wordpress-develop
+		cd /srv/www/wordpress-develop/src/
+		echo "Configuring WordPress develop..."
+		wp core config --dbname=wordpress_develop --dbuser=wp --dbpass=wp --quiet --extra-php <<PHP
+define( 'WP_DEBUG', true );
+PHP
+		wp core install --url=src.wordpress-develop.dev --quiet --title="WordPress Develop" --admin_name=admin --admin_email="admin@local.dev" --admin_password="password"
+		cp /srv/config/wordpress-config/wp-tests-config.php /srv/www/wordpress-develop/
+		cd /srv/www/wordpress-develop/
+		npm install &>/dev/null
+	else
+		echo "Updating WordPress trunk..."
+		cd /srv/www/wordpress-develop/
+		svn up
+		npm install &>/dev/null
+	fi
 
-# 	if [ ! -d /srv/www/wordpress-develop/build ]
-# 	then
-# 		echo "Initializing grunt in WordPress develop... This may take a few moments."
-# 		cd /srv/www/wordpress-develop/
-# 		grunt
-# 	fi
+	if [ ! -d /srv/www/wordpress-develop/build ]
+	then
+		echo "Initializing grunt in WordPress develop... This may take a few moments."
+		cd /srv/www/wordpress-develop/
+		grunt
+	fi
 
 	# Download phpMyAdmin 4.0.9
 	if [ ! -d /srv/www/default/database-admin ]
