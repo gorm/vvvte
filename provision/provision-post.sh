@@ -9,7 +9,7 @@ then
 		echo "Already multisite"
 	fi
 
-	if ! egrep -q define.*WPLANG.*nb_NO 
+	if ! egrep -q define.*WPLANG.*nb_NO  wp-config.php
 	then
 		echo "Upgrade to Norwegian version"
 		sed -i.bak "s/WPLANG',\s*'.*'/WPLANG', 'nb_NO'/" wp-config.php
