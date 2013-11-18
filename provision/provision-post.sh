@@ -1,6 +1,6 @@
-if [ -d /srv/www/wordpress-default ]
+if [ -d /srv/www/wordpress-multisite ]
 then
-	cd /srv/www/wordpress-default 
+	cd /srv/www/wordpress-multisite 
 	if ! egrep -q define.*\'MULTISITE\'.*true wp-config.php
 	then
 		echo "Transforming to multisite"
@@ -9,7 +9,7 @@ then
 		echo "Already multisite"
 	fi
 
-	if ! egrep -q define.*WPLANG.*nb_NO  wp-config.php
+	if ! egrep -q define.*WPLANG.*nb_NO wp-config.php
 	then
 		echo "Upgrade to Norwegian version"
 		sed -i.bak "s/WPLANG',\s*'.*'/WPLANG', 'nb_NO'/" wp-config.php
