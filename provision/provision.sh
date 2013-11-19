@@ -404,7 +404,7 @@ then
 	if [ ! -d /srv/www/wp-cli ]
 	then
 		echo -e "\nDownloading wp-cli, see http://wp-cli.org"
-		git clone git://github.com/wp-cli/wp-cli.git /srv/www/wp-cli
+		git clone https://github.com/wp-cli/wp-cli.git /srv/www/wp-cli
 		cd /srv/www/wp-cli
 		composer install
 	else
@@ -435,7 +435,7 @@ then
 	if [ ! -d /srv/www/default/webgrind ]
 	then
 		echo -e "\nDownloading webgrind, see https://github.com/jokkedk/webgrind"
-		git clone git://github.com/jokkedk/webgrind.git /srv/www/default/webgrind
+		git clone https://github.com/jokkedk/webgrind.git /srv/www/default/webgrind
 	else
 		echo -e "\nUpdating webgrind..."
 		cd /srv/www/default/webgrind
@@ -446,7 +446,7 @@ then
 	if [ ! -d /srv/www/phpcs ]
 	then
 		echo -e "\nDownloading PHP_CodeSniffer (phpcs), see https://github.com/squizlabs/PHP_CodeSniffer"
-		git clone git://github.com/squizlabs/PHP_CodeSniffer.git /srv/www/phpcs
+		git clone https://github.com/squizlabs/PHP_CodeSniffer.git /srv/www/phpcs
 	else
 		echo -e "\nUpdating PHP_CodeSniffer (phpcs)..."
 		cd /srv/www/phpcs
@@ -457,7 +457,7 @@ then
 	if [ ! -d /srv/www/phpcs/CodeSniffer/Standards/WordPress ]
 	then
 		echo -e "\nDownloading WordPress-Coding-Standards, snifs for PHP_CodeSniffer, see https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards"
-		git clone git://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git /srv/www/phpcs/CodeSniffer/Standards/WordPress
+		git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git /srv/www/phpcs/CodeSniffer/Standards/WordPress
 	else
 		echo -e "\nUpdating PHP_CodeSniffer..."
 		cd /srv/www/phpcs/CodeSniffer/Standards/WordPress
@@ -468,7 +468,7 @@ then
     then
         echo "Downloading WordPress Stable, see http://wordpress.org/"
         cd /srv/www/
-        curl -O http://wordpress.org/latest.tar.gz
+        curl -O https://wordpress.org/latest.tar.gz
         tar -xvf latest.tar.gz
         mv wordpress wordpress-default
         rm latest.tar.gz
@@ -489,7 +489,7 @@ else
 	then
 		echo "Downloading WordPress Stable, see http://wordpress.org/"
 		cd /srv/www/
-		curl -O http://wordpress.org/latest.tar.gz
+		curl -O https://wordpress.org/latest.tar.gz
 		tar -xvf latest.tar.gz
 		mv wordpress wordpress-multisite
 		rm latest.tar.gz
@@ -509,7 +509,7 @@ PHP
 # 	if [ ! -d /srv/www/wordpress-trunk ]
 # 	then
 # 		echo "Checking out WordPress trunk from core.svn, see http://core.svn.wordpress.org/trunk"
-# 		svn checkout http://core.svn.wordpress.org/trunk/ /srv/www/wordpress-trunk
+# 		svn checkout https://core.svn.wordpress.org/trunk/ /srv/www/wordpress-trunk
 # 		cd /srv/www/wordpress-trunk
 # 		echo "Configuring WordPress trunk..."
 # 		wp core config --dbname=wordpress_trunk --dbuser=wp --dbpass=wp --quiet --extra-php <<PHP
@@ -526,7 +526,7 @@ PHP
 	if [ ! -d /srv/www/wordpress-develop ]
 	then
 		echo "Checking out WordPress trunk from develop.svn, see http://develop.svn.wordpress.org/trunk"
-		svn checkout http://develop.svn.wordpress.org/trunk/ /srv/www/wordpress-develop
+		svn checkout https://develop.svn.wordpress.org/trunk/ /srv/www/wordpress-develop
 		cd /srv/www/wordpress-develop/src/
 		echo "Configuring WordPress develop..."
 		wp core config --dbname=wordpress_develop --dbuser=wp --dbpass=wp --quiet --extra-php <<PHP
