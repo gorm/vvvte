@@ -13,13 +13,15 @@ Vagrant.configure("2") do |config|
   # Configurations from 1.0.x can be placed in Vagrant 1.1.x specs like the following.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--memory", 512]
+	  # can't get this to work :/
+    #v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/srv/www", "1"]
   end
 
   # Forward Agent
   #
   # Enable agent forwarding on vagrant ssh commands. This allows you to use identities
   # established on the host machine inside the guest. See the manual for ssh-add
-  config.ssh.forward_agent = true
+  config.ssh.forward_agent = false
 
   # Default Ubuntu Box
   #
