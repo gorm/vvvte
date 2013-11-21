@@ -1,5 +1,7 @@
 # Varying Vagrant Vagrants
 
+**This is an experimental branch of VVV that is used for configuring our blog network.**
+
 Varying Vagrant Vagrants is an evolving [Vagrant](http://vagrantup.com) configuration focused on [WordPress](http://wordpress.org) development.
 
 * **Version**: 1.0-working
