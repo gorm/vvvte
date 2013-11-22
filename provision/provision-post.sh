@@ -17,20 +17,26 @@ then
 		wp core update
 	fi
 
-	if [ ! -d /srv/www/regno ]
+	# First tried to symlink in, but it was causing trouble with plugins that
+	# relay on correct basename. PHP gets confused when you basename a symlink,
+	# and return wrong path.
+	if [ ! -e /srv/www/wordpress-multisite/wp-content/.was-provisioned ]
 	then
-		echo "Downloading regno plugins"
-		git clone https://github.com/blgrgjno/main-blog-network.git /srv/www/regno
-		echo "Link in plugins"
-		rm -rf /srv/www/wordpress-multisite/wp-content/plugins
-		ln -s /srv/www/regno/plugins /srv/www/wordpress-multisite/wp-content/
-		ln -s /srv/www/regno/mu-plugins /srv/www/wordpress-multisite/wp-content/
-		echo "Link in themes"
-		rm -rf /srv/www/wordpress-multisite/wp-content/themes
-		ln -s /srv/www/regno/themes /srv/www/wordpress-multisite/wp-content/
+		echo "Delete wordpress-multisite {plugins,mu-plugins,themes} directory"
+		rm -rf /srv/www/wordpress-multisite/wp-content/{plugins,mu-plugins,themes}
+		# only works on never version of git (after 2012)
+		cd /srv/www/wordpress-multisite/wp-content
+		git init .
+		git remote add -f origin https://github.com/blgrgjno/main-blog-network.git
+		git config core.sparsecheckout true
+		echo plugins/ >> .git/info/sparse-checkout
+		echo mu-plugins/ >> .git/info/sparse-checkout
+		echo themes/ >> .git/info/sparse-checkout
+		git pull origin master
+		touch /srv/www/wordpress-multisite/wp-content/.was-provisioned
 	else
-		echo "Updating regno plugins"
-		cd /srv/www/regno 
+		echo "Updating wordpress-multisite plugins"
+		cd /srv/www/wordpress-multisite/wp-content
 		git pull --rebase origin master
 	fi
 fi
