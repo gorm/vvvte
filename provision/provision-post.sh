@@ -37,6 +37,6 @@ then
 	else
 		echo "Updating wordpress-multisite plugins"
 		cd /srv/www/wordpress-multisite/wp-content
-		git pull --rebase origin master
+		git pull origin master
 	fi
 fi
